@@ -66,6 +66,7 @@ model Subject {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   questions Question[]
+  isActive Boolean @default(true)
 
   subscribers Subscription[]
 }
