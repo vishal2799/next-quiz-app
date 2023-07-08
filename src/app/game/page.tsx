@@ -1,3 +1,14 @@
+
+export default function Game() {
+
+    
+    return (
+    <div>
+        Game
+    </div>
+    )
+}
+  
 // "use client"
 
 // import { useEffect, useState } from 'react';
