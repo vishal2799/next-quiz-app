@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+
+  username String? @unique
+
+  image String?
+  role  UserRole @default(USER)
+
+  accounts     Account[]
+  sessions     Session[]
+  attempts     Attempt[]
+  Subscription Subscription[]
+}
+
+model Subject {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  questions Question[]
+
+  subscribers Subscription[]
+}
+
+model Subscription {
+  id        String  @id @default(cuid())
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+}
+
+model Question {
+  id            String    @id @default(cuid())
+  subject       Subject   @relation(fields: [subjectId], references: [id])
+  subjectId     String
+  description   String
+  options       Option[]
+  correctOption Int
+  attempts      Attempt[]
+}
+
+model Option {
+  id          String   @id @default(cuid())
+  question    Question @relation(fields: [questionId], references: [id])
+  questionId  String
+  description String
+}
+
+model Attempt {
+  id           Int      @id @default(autoincrement())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  question     Question @relation(fields: [questionId], references: [id])
+  questionId   String
+  chosenOption Int
+}
