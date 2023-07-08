@@ -26,7 +26,7 @@ export default function QuizPage() {
     }
   };
 
-  const handleAnswerSubmit = async (e) => {
+  const handleAnswerSubmit = async (e:any) => {
     e.preventDefault();
 
     try {
