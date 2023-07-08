@@ -30,10 +30,10 @@ export default async function Subject() {
 
   console.log('data', subjects)
 
-  const formattedProducts: SubjectColumn[] = subjects.map((item) => ({
+  const formattedSubjects: SubjectColumn[] = subjects.map((item) => ({
     id: item.id,
     name: item.name,
-    isArchived: item.isActive,
+    isActive: item.isActive,
     createdAt: format(item.createdAt, 'MMMM do, yyyy'),
     updatedAt: format(item.updatedAt, 'MMMM do, yyyy'),
   }));
@@ -47,7 +47,7 @@ export default async function Subject() {
             <Link href='/dashboard/subject/create' className={buttonVariants()}>Create Subject</Link>           
         </div>
         <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={subjects} />
+      <DataTable columns={columns} data={formattedSubjects} />
     </div>
     </div>
     )
