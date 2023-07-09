@@ -13,8 +13,10 @@ export const QuestionValidator = z.object({
   description: z.string().min(3 , {
     message: "Question must be at least 2 characters.",
   }),
-  options: z.array(z.string()),
+  options: z.array(z.string().refine((value) => value.trim() !== '', {
+    message: 'Invalid input. Please provide a valid value.',
+  })),
   correctOption: z.number(),
 })
 
-export type QuestionCreationRequest = z.infer<typeof QuestionValidator>
+export type CreateQuestionPayload = z.infer<typeof QuestionValidator>

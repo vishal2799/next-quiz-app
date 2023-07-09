@@ -86,6 +86,8 @@ model Question {
   description   String
   options       Option[]
   correctOption Int
+  isActive Boolean @default(true)
+
   attempts      Attempt[]
 }
 

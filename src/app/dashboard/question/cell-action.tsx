@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-import { SubjectColumn } from "./columns";
+import { QuestionColumn } from "./columns";
 
 interface CellActionProps {
-  data: SubjectColumn;
+  data: QuestionColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -33,10 +33,10 @@ export const CellAction: React.FC<CellActionProps> = ({
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/subject/${data.id}`);
+      await axios.delete(`/api/question/${data.id}`);
       toast({
-        title: 'Subject',
-        description: 'Subject Deleted Successfully.',
+        title: 'Question',
+        description: 'Question Deleted Successfully.',
         variant: 'default',
       })
       router.refresh();
@@ -56,7 +56,7 @@ export const CellAction: React.FC<CellActionProps> = ({
     navigator.clipboard.writeText(id);
     toast({
         title: 'Copied',
-        description: 'Subject Id copied to clipboard.',
+        description: 'Question Id copied to clipboard.',
         variant: 'default',
       })
   }
@@ -84,7 +84,7 @@ export const CellAction: React.FC<CellActionProps> = ({
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/subject/edit/${data.id}`)}
+            onClick={() => router.push(`/dashboard/question/edit/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
