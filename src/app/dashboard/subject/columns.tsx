@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
 import { CellAction } from "./cell-action";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -33,6 +34,7 @@ export const columns: ColumnDef<SubjectColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({row}) => <Link href={`/dashboard/subject/${row.original.id}`}>{row.original.name}</Link>
   },
   {
     accessorKey: "isActive",
