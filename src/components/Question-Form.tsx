@@ -6,7 +6,7 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm } from "react-hook-form"
 import { Trash } from "lucide-react"
-import { Question, Subject } from "@prisma/client"
+import { Subject } from "@prisma/client"
 import { useParams, useRouter } from "next/navigation"
 import { toast } from '@/hooks/use-toast'
 
@@ -27,6 +27,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CreateSubjectPayload, SubjectValidator } from "@/lib/validators/subject"
 import { CreateQuestionPayload, QuestionValidator } from "@/lib/validators/question"
 import { cn } from "@/lib/utils"
+
+interface Question {
+  id: string | undefined;
+  subject: string | undefined;
+  subjectId: string | undefined;
+  description: string | undefined;
+  options: string[] | undefined;
+  correctOption: number | undefined;
+  isActive: boolean | undefined;
+}
 
 interface QuestionFormProps {
   initialData: Question | null;

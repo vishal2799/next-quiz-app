@@ -36,7 +36,7 @@ export default async function Question() {
     id: item.id,
     description: item.description,
     isActive: item.isActive,
-    options: item.options[0].description,
+    option1: item.options[0].description,
     option2: item.options[1].description,
     option3: item.options[2].description,
     option4: item.options[3].description,
