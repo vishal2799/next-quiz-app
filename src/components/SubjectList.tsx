@@ -12,10 +12,11 @@ interface SubjectListProps {
       name: string;
     };
     onSubscribe: (subject: { id: string; name: string }) => void;
+    loading: boolean
     
   }
 
-const SubjectList = ({ latestSubjects, subscribedSubjects, onSubscribe }:any) => {
+const SubjectList = ({ latestSubjects, subscribedSubjects, onSubscribe, loading }:any) => {
   return (
     <div>
       <h2 className="text-lg font-bold mb-4">Latest Subjects</h2>
@@ -26,6 +27,7 @@ const SubjectList = ({ latestSubjects, subscribedSubjects, onSubscribe }:any) =>
             subject={subject}
             onSubscribe={onSubscribe}
             isSubscribed={subscribedSubjects.some((subscribedSubject:any) => subscribedSubject.id === subject.id)}
+            loading={loading}
           />
         ))}
       </div>
@@ -33,7 +35,9 @@ const SubjectList = ({ latestSubjects, subscribedSubjects, onSubscribe }:any) =>
       <h2 className="text-lg font-bold mb-4">Subscribed Subjects</h2>
       <div className="flex overflow-x-scroll">
         {subscribedSubjects.map((subject:any) => (
-          <SubjectCard key={subject.id} subject={subject} isSubscribed={true} onSubscribe={onSubscribe} />
+          <SubjectCard key={subject.id} subject={subject} 
+          isSubscribed={true} onSubscribe={onSubscribe}
+          loading={loading} />
         ))}
       </div>
     </div>
