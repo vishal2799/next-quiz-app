@@ -42,13 +42,16 @@ export default function GameBySubject() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/answer', {
+      const response = await axios.post('/api/game/answer', {
         userId: session?.user?.id, // Replace with the actual user ID
         questionId: question.id,
         chosenOption,
       });
 
+      console.log('answer', response);
+
       const isCorrect = response.data.correct;
+
 
       setAnswerResult(isCorrect);
       setQuestionCount((prevCount) => prevCount + 1);
@@ -85,7 +88,34 @@ export default function GameBySubject() {
         <div className="container mx-auto py-10">
         <div>
        {question !== null ? (
-        <div>Question Fetched</div>
+        <div>
+        <h3 className="text-xl font-semibold mb-4">{question.description}</h3>
+        <form onSubmit={handleAnswerSubmit}>
+          <ul>
+            {question.options.map((option:any) => (
+              <li key={option.id} className="mb-2">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="option"
+                    value={option.id}
+                    checked={chosenOption === option.id}
+                    onChange={(e) => setChosenOption(e.target.value)}
+                    className="text-indigo-500"
+                  />
+                  <span>{option.description}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          <button
+            type="submit"
+            className="bg-indigo-500 text-white py-2 px-4 mt-4 rounded hover:bg-indigo-600"
+          >
+            Submit Answer
+          </button>
+        </form>
+      </div>
         // <div>
         //   <h3>{question.description}</h3>
         //   <form onSubmit={handleAnswerSubmit}>
@@ -112,15 +142,22 @@ export default function GameBySubject() {
         <p>Loading question...</p>
       )}
 
-       {answerResult !== null && (
-        <div>
+{answerResult !== null && (
+        <div className="mt-4">
           {answerResult ? (
-            <p>Correct answer!</p>
+            <p className="text-green-600">Correct answer!</p>
           ) : (
-            <p>Wrong answer. Try again!</p>
+            <p className="text-red-600">Wrong answer. Try again!</p>
           )}
+          <button
+            onClick={fetchQuestion}
+            className="bg-gray-200 text-gray-700 py-2 px-4 mt-4 rounded hover:bg-gray-300"
+          >
+            Next Question
+          </button>
         </div>
       )}
+  
 
        {showLevelScreen && (
         <div>
