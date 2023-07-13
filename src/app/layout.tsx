@@ -4,6 +4,8 @@ import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 import '@/styles/globals.css'
 import {Inter} from 'next/font/google'
+import { getServerSession } from "next-auth/next"
+import { authOptions, getAuthSession } from "@/lib/auth"
 
 export const metadata = {
   title: 'Breadit',
@@ -12,17 +14,21 @@ export const metadata = {
 
 const inter = Inter({subsets: ['latin']})
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  authModal
+  authModal,
 }: {
   children: React.ReactNode,
-  authModal: React.ReactNode
+  authModal: React.ReactNode,
+
 }) {
+
+  const session = await getServerSession(authOptions)
+
   return (
     <html lang='en' className={cn('bg-white text-slate-900 antialiased light',inter.className)}>
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
-        <Providers>
+        <Providers session={session}>
         <Navbar />
 
         {authModal}

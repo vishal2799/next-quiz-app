@@ -5,16 +5,19 @@ import { SessionProvider } from 'next-auth/react'
 import { FC, ReactNode } from 'react'
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode,
+  session: any; // new change
 }
 
-const Providers: FC<LayoutProps> = ({ children }) => {
+const Providers: FC<LayoutProps> = ({ children, session }) => {
   const queryClient = new QueryClient()
 
   return (
+    <SessionProvider session={session}>
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>{children}</SessionProvider>
+      {children}
     </QueryClientProvider>
+    </SessionProvider>
   )
 }
 
